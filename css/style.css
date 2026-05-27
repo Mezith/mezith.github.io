@@ -22,20 +22,33 @@
    GLOBAL
    ========================= */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
   padding: 0;
+
+  width: 100%;
+  min-height: 100dvh;
+
+  overflow-x: hidden;
+}
+
+body {
   background-color: black;
   color: var(--crt-green);
+
   font-family: var(--crt-font);
-  font-size: 15px;
+  font-size: clamp(2px, 0.7vw + 0.5vh, 14px);
 
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
-
-  height: 100vh;
 }
 
 /* =========================
@@ -44,19 +57,29 @@ body {
 
 #crt-wrapper {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+
+  max-height: 95dvh;
+  min-width: 900px;
+  width: min(95vw, 1800px);
+  aspect-ratio: 2560 / 1440;
+
+  margin: auto;
 }
+
+/* =========================
+   CRT BORDER
+   ========================= */
 
 #crt-border {
   position: absolute;
   inset: 0;
 
+
   width: 100%;
   height: 100%;
 
-  object-fit: fill;
-  image-rendering: crisp-edges;
+  object-fit: contain;
+
   pointer-events: none;
 
   z-index: var(--z-border);
@@ -70,9 +93,9 @@ body {
   position: absolute;
 
   top: 2%;
-  left: 14.6%;
+  left: 18.8%;
 
-  width: 70.2%;
+  width: 62%;
   height: 94%;
 
   background-color: var(--crt-bg);
@@ -93,6 +116,7 @@ body {
 #terminal::before,
 #terminal::after {
   content: "";
+
   position: absolute;
   inset: 0;
 
@@ -116,9 +140,13 @@ body {
 #terminal::after {
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 255, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.6) 80%
+    rgba(0, 255, 0, 0.12) 0%,
+    rgba(0, 255, 0, 0.05) 45%,
+    rgba(0, 0, 0, 0.55) 75%,
+    rgba(0, 0, 0, 0.9) 100%
   );
+
+  mix-blend-mode: screen;
 
   z-index: var(--z-overlay);
 }
@@ -131,31 +159,32 @@ body {
   position: relative;
   z-index: var(--z-ui);
 
-  white-space: pre-wrap;
+  font-size: clamp(0.25rem, 0.7vw + 0.5vh, 1.35rem);
+  line-height: 1.5;
 
-  font-size: 1.2rem;
-  line-height: 1.4;
+  white-space: pre-wrap;
 }
 
 #page-content,
 #terminal-response {
-  box-sizing: border-box;
+  position: relative;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   width: 100%;
-  max-height: 75vh;
+  max-height: 70dvh;
 
   overflow-y: auto;
   overflow-x: hidden;
 
-  padding-top: 40px;
+  padding-top: clamp(1rem, 3vw, 2.5rem);
+  padding-inline: clamp(1rem, 4vw, 3rem);
 
   white-space: pre-line;
-
 }
+
 .repo-block,
 .tree-root {
   align-self: flex-start;
@@ -166,19 +195,21 @@ body {
    ========================= */
 
 #ascii-title {
-  white-space: pre;
-
-  font-family: monospace;
-  font-size: 15px;
-
   display: flex;
   justify-content: center;
+
+  max-width: 100%;
 
   overflow-x: auto;
 
   margin: 0 auto;
 
-  padding-top: 50px;
+  padding-top: clamp(1rem, 4vw, 3rem);
+
+  white-space: pre;
+
+  font-family: monospace;
+  font-size: clamp(2px, 0.55vw + 0.35vh, 18px);
 }
 
 /* =========================
@@ -188,15 +219,23 @@ body {
 #nav-bar {
   position: absolute;
 
-  bottom: 50px;
-  left: 80px;
+  bottom: 3%;
+  left: 50%;
+
+  transform: translateX(-80%);
+
+  width: 80%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0.4rem;
 
   z-index: var(--z-ui);
 
-  display: flex;
-  align-items: center;
-
-  font-size: 1.2rem;
+  font-size: clamp(0.2rem, 0.7vw + 0.6vh, 1.35rem);
   color: var(--crt-green);
 
   font-family: var(--crt-font);
@@ -238,6 +277,7 @@ body {
 
 .blinking-cursor {
   animation: blink 1s steps(2, start) infinite;
+
   margin-left: 0.1rem;
 }
 
@@ -259,14 +299,13 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 
   gap: 10px;
 
   width: 100%;
 
-  justify-content: center;
-
-  font-size: 12px;
+  font-size: clamp(2px, 0.7vw + 0.5vh, 10px);
 }
 
 .certificates-wrapper pre {
@@ -286,21 +325,28 @@ body {
 }
 
 /* =========================
-   TERMINAL OUTPUT
+   Nav-Bar OUTPUT
    ========================= */
 
 #terminal-output {
   position: absolute;
 
-  bottom: 100px;
-  left: 90px;
+  bottom: 8%;
+  left: 50%;
 
+  transform: translateX(-53%);
+  width: 80%;
+
+  margin-top: 1rem;
+
+  justify-content: center;
+  align-items: center;
   color: var(--crt-green);
 
   font-family: var(--crt-font);
-  font-size: 1.1rem;
+  font-size: clamp(12px, 0.55vw + 0.25vh, 15px);
 
-  white-space: pre;
+  white-space: pre-wrap;
 
   pointer-events: none;
 
@@ -357,12 +403,20 @@ body {
    ========================= */
 
 .repo-block {
-  margin-left: 80px;
+  width: 100%;
+  max-width: 100%;
+
+  margin-left: 0;
+
+  padding-inline: 1rem;
+
+  overflow-x: auto;
 }
 
 .repo-header {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
 
   gap: 0.5rem;
 }
@@ -377,7 +431,7 @@ body {
   cursor: pointer;
 
   font-family: inherit;
-  font-size: 22px;
+  font-size: clamp(18px, 2vw, 22px);
 }
 
 .tree-root,
@@ -413,12 +467,79 @@ body {
 .center-me,
 .centered-title {
   display: block;
+
   text-align: center;
 }
 
 .profile-columns {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 
-  gap: 4rem;
+  gap: clamp(1rem, 5vw, 4rem);
+}
+
+/* =========================
+   MEDIA QUERIES
+   ========================= */
+
+@media (max-width: 768px) {
+
+  #crt-wrapper {
+    width: min(98vw, 1600px);
+    height: 100dvh;
+    padding: 0.5rem;
+  }
+
+  #page-content,
+  #terminal-response {
+    max-height: 75dvh;
+
+    padding-inline: 1rem;
+  }
+
+  #ascii-title {
+    justify-content: flex-start;
+
+    padding-inline: 0.5rem;
+  }
+
+  #nav-bar {
+    flex-direction: column;
+
+    gap: 0.5rem;
+
+    text-align: center;
+  }
+
+  .profile-columns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .repo-block {
+    padding-inline: 0.5rem;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  #terminal {
+    border-width: 1px;
+    border-radius: 6px;
+  }
+
+  #content {
+    line-height: 1.4;
+  }
+
+  #ascii-title {
+    font-size: 6px;
+  }
+
 }
