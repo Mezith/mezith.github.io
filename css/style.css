@@ -59,8 +59,8 @@ body {
   position: relative;
 
   max-height: 95dvh;
-  min-width: 900px;
-  width: min(95vw, 1800px);
+
+  width: clamp(1000px, 95vw, 1800px);
   aspect-ratio: 2560 / 1440;
 
   margin: auto;
@@ -93,10 +93,10 @@ body {
   position: absolute;
 
   top: 2%;
-  left: 18.8%;
+  left: 14.6%;
 
-  width: 62%;
-  height: 94%;
+  width: clamp(900px, 70.5%, 1280px);
+  height: clamp(500px, 94%, 1180px);
 
   background-color: var(--crt-bg);
 
@@ -159,7 +159,7 @@ body {
   position: relative;
   z-index: var(--z-ui);
 
-  font-size: clamp(0.25rem, 0.7vw + 0.5vh, 1.35rem);
+  font-size: clamp(0.95rem, 0.7vw + 0.45vh, 1.35rem);
   line-height: 1.5;
 
   white-space: pre-wrap;
