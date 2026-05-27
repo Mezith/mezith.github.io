@@ -1,23 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Terminal</title>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading...</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+  body {
+    margin: 0;
+    background-color: black;
+    color: #00ff00;
+    font-family: 'VT323', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+  }
+
+  #crt-wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #crt-border {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+  #terminal {
+    position: absolute;
+    top: 30%;
+    left: 33%;
+    background-color: #001100;
+    padding: 20px;
+    width: 600px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 2px solid #004400;
+    box-shadow:
+      0 0 20px #00ff00,
+      inset 0 0 50px #00ff00;
+    position: relative;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+    overflow: hidden;
+    cursor: url('assets/spaceinvaders.png') 0 0, auto;
+    z-index: 1;
+  }
+
+  #terminal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 255, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #terminal::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 255, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.6) 80%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  #terminal-output {
+    white-space: pre-wrap;
+    font-size: 1rem;
+    line-height: 1.4;
+    z-index: 3;
+    position: relative;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.98; }
+    60% { opacity: 0.96; }
+    70% { opacity: 0.99; }
+    80% { opacity: 0.97; }
+  }
+
+  #terminal {
+    animation: flicker 0.15s infinite;
+  }
+</style>
 </head>
 <body>
-    <div id="crt-wrapper">
+  <div id="crt-wrapper">
       <img id="crt-border" src="assets/border.png" alt="CRT Border">
       <div id="terminal">
-        <div id="scanline-wipe"></div>
-        <pre id="ascii-title"></pre>
-        <div id="page-content"></div>
-        <div id="terminal-output"></div>
-        <div id="nav-bar"></div>
+        <pre id="terminal-output"></pre>
       </div>
-    </div>
-  <script src="javascript/ascii-and-navbar-loader.js"></script>
+  </div>
+
+  <script>
+  window.onload = () => {
+      document.body.style.opacity = "1";
+    };
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const refreshRate = 60;
+
+      const bootSequence = [
+      "BIOS Version 4.2.1",
+      "Initializing memory...",
+      "Memory check: OK",
+      "Detecting devices...",
+      "Mouse: Connected",
+      "Keyboard: Connected",
+    ];
+
+    if ('ontouchstart' in window) {
+      bootSequence.push("Touchscreen: Enabled");
+    }
+
+    bootSequence.push(`Display: ${width}x${height} @ ${refreshRate}Hz`);
+
+    bootSequence.push(
+      "Loading kernel modules...",
+      "Mounting file system...",
+      "Starting DevinOS...",
+      "System ready. Launching Profile..."
+    );
+
+  let i = 0;
+
+  function runBootSequence() {
+    const output = document.getElementById("terminal-output");
+    output.textContent += bootSequence[i] + "\n";
+    i++;
+
+    if (i < bootSequence.length) {
+      setTimeout(runBootSequence, 600); // Delay between lines
+    } else {
+      setTimeout(() => {
+        document.body.style.transition = "opacity 1s";
+        document.body.style.opacity = "0";
+        window.location.href = "landing.html";
+      }, 1500); // Delay before redirect
+    }
+  }
+
+  runBootSequence();
+ </script>
+
 </body>
 </html>
