@@ -4,132 +4,196 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Loading...</title>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-  <style>
-  body {
-    margin: 0;
-    background-color: black;
-    color: #00ff00;
-    font-family: 'VT323', monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    opacity: 0;
-    transition: opacity 1s ease-in;
-  }
 
-  #crt-wrapper {
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --crt-green: #00ff00;
+      --crt-cyan: #00ffea;
+      --crt-bg: #001100;
+      --crt-border: #004400;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+
+      width: 100%;
+      min-height: 100dvh;
+
+      overflow-x: auto;
+    }
+
+    body {
+      background-color: black;
+      color: var(--crt-green);
+
+      font-family: 'VT323', monospace;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      min-height: 100dvh;
+
+      opacity: 0;
+
+      transition: opacity 1s ease-in;
+    }
+
+    #crt-wrapper {
       position: relative;
-      width: 100vw;
-      height: 100vh;
+
+      width: min(95vw, 1800px);
+      min-width: 950px;
+      max-height: 95dvh;
+
+      aspect-ratio: 2560 / 1440;
+
+      margin: auto;
     }
 
     #crt-border {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
+
       width: 100%;
       height: 100%;
-      object-fit: fill;
+
+      object-fit: contain;
+
       pointer-events: none;
+
       z-index: 10;
     }
 
-  #terminal {
-    position: absolute;
-    top: 30%;
-    left: 33%;
-    background-color: #001100;
-    padding: 20px;
-    width: 600px;
-    height: 300px;
-    overflow: hidden;
-    border-radius: 8px;
-    border: 2px solid #004400;
-    box-shadow:
-      0 0 20px #00ff00,
-      inset 0 0 50px #00ff00;
-    position: relative;
-    color: #00ff00;
-    text-shadow: 0 0 5px #00ff00;
-    overflow: hidden;
-    cursor: url('assets/spaceinvaders.png') 0 0, auto;
-    z-index: 1;
-  }
+    #terminal {
+      position: absolute;
 
-  #terminal::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0px,
-      rgba(0, 255, 0, 0.05) 2px,
-      rgba(0, 0, 0, 0) 4px
-    );
-    pointer-events: none;
-    z-index: 1;
-  }
+      top: 2%;
+      left: 14.6%;
 
-  #terminal::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(0, 255, 0, 0.1) 0%,
-      rgba(0, 0, 0, 0.6) 80%
-    );
-    pointer-events: none;
-    z-index: 2;
-  }
+      width: 70.2%;
+      height: 94%;
 
-  #terminal-output {
-    white-space: pre-wrap;
-    font-size: 1rem;
-    line-height: 1.4;
-    z-index: 3;
-    position: relative;
-  }
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-  @keyframes flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.98; }
-    60% { opacity: 0.96; }
-    70% { opacity: 0.99; }
-    80% { opacity: 0.97; }
-  }
+      background-color: var(--crt-bg);
 
-  #terminal {
-    animation: flicker 0.15s infinite;
-  }
-</style>
+      border-radius: 10px;
+      border: 2px solid var(--crt-border);
+
+      box-shadow:
+        0 0 10px var(--crt-green),
+        0 0 30px rgba(0,255,0,0.5),
+        inset 0 0 80px rgba(0,255,0,0.2);
+
+      color: var(--crt-green);
+
+      text-shadow: 0 0 5px var(--crt-green);
+
+      overflow: hidden;
+
+      cursor: url('assets/spaceinvaders.png') 0 0, auto;
+
+      z-index: 1;
+
+      animation: flicker 0.15s infinite;
+    }
+
+    #terminal::before,
+    #terminal::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+    }
+
+    #terminal::before {
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 255, 0, 0.05) 2px,
+        rgba(0, 0, 0, 0) 4px
+      );
+
+      z-index: 1;
+    }
+
+    #terminal::after {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0,255,0,0.12) 0%,
+        rgba(0,255,0,0.05) 45%,
+        rgba(0,0,0,0.55) 75%,
+        rgba(0,0,0,0.9) 100%
+      );
+
+      mix-blend-mode: screen;
+
+      z-index: 2;
+    }
+
+    #terminal-output {
+      position: relative;
+
+      z-index: 3;
+
+      width: 80%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      white-space: pre-wrap;
+
+      font-size: clamp(0.95rem, 0.7vw + 0.45vh, 1.35rem);
+      line-height: 1.5;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.98; }
+      60% { opacity: 0.96; }
+      70% { opacity: 0.99; }
+      80% { opacity: 0.97; }
+    }
+  </style>
 </head>
+
 <body>
+
   <div id="crt-wrapper">
-      <img id="crt-border" src="assets/border.png" alt="CRT Border">
-      <div id="terminal">
-        <pre id="terminal-output"></pre>
-      </div>
+    <img id="crt-border" src="assets/border.png" alt="CRT Border">
+
+    <div id="terminal">
+      <pre id="terminal-output"></pre>
+    </div>
   </div>
 
   <script>
-  window.onload = () => {
+    window.onload = () => {
       document.body.style.opacity = "1";
     };
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const refreshRate = 60;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const refreshRate = 60;
 
-      const bootSequence = [
+    const bootSequence = [
       "BIOS Version 4.2.1",
       "Initializing memory...",
       "Memory check: OK",
@@ -151,26 +215,29 @@
       "System ready. Launching Profile..."
     );
 
-  let i = 0;
+    let i = 0;
 
-  function runBootSequence() {
-    const output = document.getElementById("terminal-output");
-    output.textContent += bootSequence[i] + "\n";
-    i++;
+    function runBootSequence() {
+      const output = document.getElementById("terminal-output");
 
-    if (i < bootSequence.length) {
-      setTimeout(runBootSequence, 600); // Delay between lines
-    } else {
-      setTimeout(() => {
-        document.body.style.transition = "opacity 1s";
-        document.body.style.opacity = "0";
-        window.location.href = "landing.html";
-      }, 1500); // Delay before redirect
+      output.textContent += bootSequence[i] + "\n";
+
+      i++;
+
+      if (i < bootSequence.length) {
+        setTimeout(runBootSequence, 600);
+      } else {
+        setTimeout(() => {
+          document.body.style.transition = "opacity 1s";
+          document.body.style.opacity = "0";
+
+          window.location.href = "landing.html";
+        }, 1500);
+      }
     }
-  }
 
-  runBootSequence();
- </script>
+    runBootSequence();
+  </script>
 
 </body>
 </html>
