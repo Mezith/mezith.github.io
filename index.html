@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Terminal</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
@@ -10,9 +11,10 @@
     <div id="crt-wrapper">
       <img id="crt-border" src="assets/border.png" alt="CRT Border">
       <div id="terminal">
+        <div id="scanline-wipe"></div>
         <pre id="ascii-title"></pre>
         <div id="page-content"></div>
-        <div id="terminal-response" class="terminal-response"></div>
+        <div id="terminal-output"></div>
         <div id="nav-bar"></div>
       </div>
     </div>
